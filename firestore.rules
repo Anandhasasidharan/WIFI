@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isParent() {
+      return isAuthenticated() && get(/databases/$(database)/documents/parents/$(request.auth.uid)).data.role == 'parent';
+    }
+
+    function isChild() {
+      return isAuthenticated() && get(/databases/$(database)/documents/children/$(request.auth.uid)).data.role == 'child';
+    }
+
+    function isParentOfChild(childId) {
+      return isAuthenticated() &&
+             exists(/databases/$(database)/documents/parents/$(request.auth.uid)/children/$(childId));
+    }
+
+    function isAssignedChild(childId) {
+      return isAuthenticated() &&
+             get(/databases/$(database)/documents/children/$(childId)).data.parentId == request.auth.uid;
+    }
+
+    // Parents collection
+    match /parents/{parentId} {
+      // Parents can read/write their own profile
+      allow read, write: if request.auth.uid == parentId && isParent();
+
+      // Children subcollection
+      match /children/{childId} {
+        // Parents can manage their children's data
+        allow read, write: if isParentOfChild(childId);
+
+        // Rules subcollection
+        match /rules/{ruleId} {
+          allow read, write: if isParentOfChild(childId);
+        }
+
+        // Usage logs subcollection
+        match /usageLogs/{logId} {
+          // Parents can read all logs, children can only write their own
+          allow read: if isParentOfChild(childId);
+          allow write: if request.auth.uid == childId && isChild();
+        }
+
+        // Analysis reports subcollection
+        match /analysisReports/{reportId} {
+          // Only parents can read/write analysis reports
+          allow read, write: if isParentOfChild(childId);
+        }
+      }
+    }
+
+    // Global children collection (for lookup)
+    match /children/{childId} {
+      // Children can read their own data
+      allow read: if request.auth.uid == childId && isChild();
+      // Parents can read children they manage
+      allow read: if isParentOfChild(childId);
+    }
+
+    // Global rules collection (alternative structure if needed)
+    match /rules/{ruleId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Global usage logs collection
+    match /usageLogs/{logId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Global analysis reports collection
+    match /analysisReports/{reportId} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}

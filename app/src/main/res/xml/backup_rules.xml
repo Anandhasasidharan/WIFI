@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Include all shared preferences -->
+    <include domain="sharedpref" path="." />
+    <!-- Exclude sensitive data -->
+    <exclude domain="database" path="wifimonitor.db" />
+</full-backup-content>

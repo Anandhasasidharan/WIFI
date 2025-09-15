@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WiFi Monitor</string>
+    <string name="gcm_defaultSenderId" translatable="false">875704004019</string>
+    <string name="google_api_key" translatable="false">AIzaSyDl4KXIAboNwkRr50NvvuRbtqviXM-abdc</string>
+    <string name="google_app_id" translatable="false">1:875704004019:android:85fe88cc59b5e710fb6fc6</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDl4KXIAboNwkRr50NvvuRbtqviXM-abdc</string>
+    <string name="google_storage_bucket" translatable="false">safenet-fd3d7.firebasestorage.app</string>
+    <string name="project_id" translatable="false">safenet-fd3d7</string>
+    <style name="Theme.WiFiMonitor" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        <item name="colorPrimary">@android:color/system_accent1_600</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        
+        <item name="colorSecondary">@android:color/system_accent2_600</item>
+        <item name="colorOnSecondary">@android:color/black</item>
+        
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        
+        <item name="android:navigationBarColor">@android:color/system_neutral1_10</item>
+    </style>
+</resources>
