@@ -3,12 +3,12 @@ package com.example.wifimonitor.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.wifimonitor.ui.theme.WifiMonitorTheme
 
 /**
  * Main activity of the Wi-Fi Monitor app.
@@ -20,12 +20,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MaterialTheme {
-                Box(
+            WifiMonitorTheme {
+                Surface(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    Text("Wi-Fi Monitor App Started!")
+                    // TODO: Add navigation and main screen
+                    Text(
+                        text = "Wi-Fi Monitor App Started Successfully!",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.headlineMedium
+                    )
                 }
             }
         }
